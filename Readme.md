@@ -1,9 +1,6 @@
-# 게시판 만들기 과제 (spring)
-
 
 # README
 
----
 
 미완성입니다……………………………………………………………………………….
 
@@ -31,5 +28,5 @@
 ![api](https://user-images.githubusercontent.com/116135174/206619546-d99f0a50-c411-465d-b6da-27eaabc0136c.png)
 
 ## Usecase
+![usecase](https://user-images.githubusercontent.com/116135174/206619672-24e5b2b8-0894-4bbd-99c8-6d4a580346b6.png)
 
-![Untitled]![Usecase](https://user-images.githubusercontent.com/116135174/206619476-b703c2e2-05ba-4cd2-ad53-c1f72c512dd6.png)
