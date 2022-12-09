@@ -34,10 +34,10 @@ Last Edited Time: 2022년 12월 9일 오후 12:25
 | 기능 | Method | URL | Request | Response |
 | --- | --- | --- | --- | --- |
 | 전체 게시글 조회 | GET | /api/boards |  | 작성시간
-수정시간
-닉네임
-제목
-내용 |
+                                           수정시간
+                                            닉네임
+                                              제목
+                                            내용 |
 | 선택 게시글 조회 | GET | /api/boards |  | 작성시간
 수정시간
 닉네임
