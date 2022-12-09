@@ -2,7 +2,6 @@ package com.sparta.spartaboardtest.entity;
 
 
 import com.sparta.spartaboardtest.dto.BoardRequestDto;
-import com.sparta.spartaboardtest.dto.BoardResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,7 +26,7 @@ public class Board extends Timestamped{
     private String contents;
 
     @Column(nullable = false)
-    private String password;
+    private int password;
 
     @Column(nullable = false)
     private String title;
@@ -42,7 +41,7 @@ public class Board extends Timestamped{
     }
 
 
-    public void update(BoardResponseDto requestDto){
+    public void update(BoardRequestDto requestDto){
         this.username = requestDto.getUsername();
         this.contents = requestDto.getContents();
         this.title = requestDto.getTitle();

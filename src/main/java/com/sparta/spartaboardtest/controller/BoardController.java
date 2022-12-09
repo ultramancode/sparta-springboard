@@ -19,6 +19,7 @@ public class BoardController {
     private final BoardService boardService;
     private Long id;
     private BoardResponseDto responseDto;
+    private BoardRequestDto requestDto;
 
     @GetMapping("/")
     public ModelAndView home() {
@@ -35,17 +36,21 @@ public class BoardController {
     public List<Board> getBoards() {
         return boardService.getBoards();
     }
+    @GetMapping("/api/boards/{id}")
+    public BoardResponseDto getBoard(@PathVariable Long id){
+        return boardService.getBoard(id);
+
+    }
 
     //게시글 수정
-    @PutMapping("/api/memos/{id}")
-    public Long updateBoard(@PathVariable Long id, @RequestBody BoardResponseDto responseDto){
-        this.id = id;
-        this.responseDto = responseDto;
-        return boardService.update(id, responseDto);
+    @PutMapping("/api/boards/{id}")
+    public Long updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto){
+
+        return boardService.update(id, requestDto);
     }
     // 게시글 삭제
-    @DeleteMapping("/api/memos/{id}")
-    public Long deleteBoard(@PathVariable Long id, @RequestBody String password){
+    @DeleteMapping("/api/boards/{id}")
+    public Long deleteBoard(@PathVariable Long id, @RequestBody int password){
         return boardService.deleteBoard(id, password);
     }
 }
