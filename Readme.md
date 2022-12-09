@@ -1,7 +1,5 @@
 # 게시판 만들기 과제 (spring)
 
-Created: 2022년 12월 9일 오후 12:17
-Last Edited Time: 2022년 12월 9일 오후 12:31
 
 # README
 
@@ -30,37 +28,8 @@ Last Edited Time: 2022년 12월 9일 오후 12:31
 ㅡ> 네
 
 ## API 명세서
-
-| 기능 | Method | URL | Request | Response |
-| --- | --- | --- | --- | --- |
-| 전체 게시글 조회 | GET | /api/boards |  | 작성시간
-수정시간
-닉네임
-제목
-내용 |
-| 선택 게시글 조회 | GET | /api/boards |  | 작성시간
-수정시간
-닉네임
-제목
-내용 |
-| 게시글 작성 | POST | /api/boards | 닉네임
-제목
-내용
-비밀번호 | 작성시간
-수정시간
-닉네임
-제목
-내용 |
-| 선택 게시글 수정 | PUT | /api/boards/{id} | 닉네임
-제목
-내용
-비밀번호 | 작성시간
-수정시간
-닉네임
-제목
-내용 |
-| 선택 게시글 삭제 | DELETE | /api/boards/{id} | 비밀번호 |  |
+![api](https://user-images.githubusercontent.com/116135174/206619546-d99f0a50-c411-465d-b6da-27eaabc0136c.png)
 
 ## Usecase
 
-![Untitled](%E1%84%80%E1%85%A6%E1%84%89%E1%85%B5%E1%84%91%E1%85%A1%E1%86%AB%20%E1%84%86%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3%E1%86%AF%E1%84%80%E1%85%B5%20%E1%84%80%E1%85%AA%E1%84%8C%E1%85%A6%20(spring)%20c09fe9812b19495b8cc26146c674df3a/Untitled.png)
+![Untitled]![Usecase](https://user-images.githubusercontent.com/116135174/206619476-b703c2e2-05ba-4cd2-ad53-c1f72c512dd6.png)
