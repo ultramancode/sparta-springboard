@@ -2,12 +2,16 @@ package com.sparta.spartaboardtest.controller;
 
 import com.sparta.spartaboardtest.dto.BoardRequestDto;
 import com.sparta.spartaboardtest.dto.BoardResponseDto;
+import com.sparta.spartaboardtest.dto.LoginRequestDto;
+import com.sparta.spartaboardtest.dto.SignupRequestDto;
 import com.sparta.spartaboardtest.entity.Board;
 import com.sparta.spartaboardtest.service.BoardService;
+import com.sparta.spartaboardtest.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -50,7 +54,8 @@ public class BoardController {
     }
     // 게시글 삭제
     @DeleteMapping("/api/boards/{id}")
-    public Long deleteBoard(@PathVariable Long id, @RequestBody int password){
+    public Long deleteBoard(@PathVariable Long id, @RequestBody String password){
         return boardService.deleteBoard(id, password);
     }
+
 }

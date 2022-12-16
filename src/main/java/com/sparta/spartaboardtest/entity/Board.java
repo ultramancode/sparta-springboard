@@ -13,12 +13,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 
 public class Board extends Timestamped{
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-
     @Column(nullable = false)
     private String username;
 
@@ -26,21 +23,19 @@ public class Board extends Timestamped{
     private String contents;
 
     @Column(nullable = false)
-    private int password;
-
-    @Column(nullable = false)
     private String title;
+
+    @ManyToOne
+    @JoinColumn(name = "User_Id", nullable = false)
+    private User user;
 
 
     public Board(BoardRequestDto requestDto) {
         this.username = requestDto.getUsername();
         this.contents = requestDto.getContents();
         this.title = requestDto.getTitle();
-        this.password = requestDto.getPassword();
 
     }
-
-
     public void update(BoardRequestDto requestDto){
         this.username = requestDto.getUsername();
         this.contents = requestDto.getContents();
