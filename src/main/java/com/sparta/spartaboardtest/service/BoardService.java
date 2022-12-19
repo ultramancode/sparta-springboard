@@ -133,7 +133,7 @@ public class BoardService {
 
 
     @Transactional
-    public Long deleteBoard(Long id, HttpServletRequest request) {
+    public Long deleteBoard(Long id, HttpServletRequest request/* ,Board board*/) {
         Claims claims;
         String token = jwtUtil.resolveToken(request);
             if (token != null) {
@@ -150,6 +150,8 @@ public class BoardService {
                         () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
                 );
         }
+        boardRepository.deleteById(id);
+//        boardRepository.delete(board);
         return id;
     }
 

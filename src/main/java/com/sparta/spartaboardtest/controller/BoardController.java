@@ -56,8 +56,8 @@ public class BoardController {
     }
     // 게시글 삭제
     @DeleteMapping("/api/boards/{id}")
-    public Long deleteBoard(@PathVariable Long id, HttpServletRequest request){
-        return boardService.deleteBoard(id, request);
+    public Long deleteBoard(@PathVariable Long id, HttpServletRequest request/*, Board board*/){
+        return boardService.deleteBoard(id, request/*, board*/);
     }
 
 }

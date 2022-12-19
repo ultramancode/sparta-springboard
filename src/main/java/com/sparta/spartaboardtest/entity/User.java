@@ -2,6 +2,7 @@ package com.sparta.spartaboardtest.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import javax.validation.constraints.Pattern;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,9 +20,11 @@ public class User {
     // nullable: null 허용 여부
     // unique: 중복 허용 여부 (false 일때 중복 허용)
     @Column(nullable = false, unique = true)
-    private String username;
+//    @Pattern(regexp = "[a-z0-9]{4,10}", message = "사용자 이름은 알파벳 소문자, 숫자로 구성한 4~10자 사이로 입력해주세요.")
+    public String username;
 
     @Column(nullable = false)
+//    @Pattern(regexp = "[a-z0-9]{4,10}", message = "사용자 이름은 알파벳 소문자, 숫자로 구성한 4~10자 사이로 입력해주세요.")
     private String password;
 
     @Column(nullable = false, unique = true)

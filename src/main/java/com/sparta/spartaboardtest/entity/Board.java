@@ -4,6 +4,7 @@ package com.sparta.spartaboardtest.entity;
 import com.sparta.spartaboardtest.dto.BoardRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.intellij.lang.annotations.Pattern;
 
 import javax.persistence.*;
 
