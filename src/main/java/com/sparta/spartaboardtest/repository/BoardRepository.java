@@ -1,7 +1,6 @@
 package com.sparta.spartaboardtest.repository;
 
 import com.sparta.spartaboardtest.entity.Board;
-import com.sparta.spartaboardtest.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,6 +10,10 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
 
     List<Board> findAllByOrderByModifiedAtDesc();
+    Optional<Board> findById(Long id);
     Optional<Board> findByUsername(String username);
+
+    Optional<Board> findByIdAndUserId(Long id, Long userId);
+
 
 }

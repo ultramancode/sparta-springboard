@@ -29,10 +29,11 @@ public class BoardService {
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
 
+    private final JwtUtil jwtUtil;
+
+
     @Transactional
-
-
-    public Board createBoard(BoardRequestDto requestDto, HttpServletRequest request) {
+    public BoardResponseDto createBoard(BoardRequestDto requestDto, HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
         Claims claims;
 
@@ -51,14 +52,19 @@ public class BoardService {
                     () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
             );
 
-        Board board = boardRepository.save(new Board(requestDto, user);
+            Board board = new Board(requestDto,user.getUsername());
+            board.addUser(user);
+            boardRepository.save(board);
+//            System.out.println(board.getUsername());
+//            System.out.println(board.getTitle());
+//            System.out.println(board.getId());
+//            System.out.println(board.getContents());
             return new BoardResponseDto(board);
 
-//
-//            new Board(requestDto);
-//        boardRepository.save(board);
-//        return board;
+        }
+        return null;
     }
+
     @Transactional(readOnly = true)
     public List<Board> getBoards() {
         return boardRepository.findAllByOrderByModifiedAtDesc();
@@ -67,29 +73,40 @@ public class BoardService {
 
 
     @Transactional
-    public BoardResponseDto getBoard(Long id, HttpServletRequest request){
-            if (token != null) {
-                // Token 검증
-                if (jwtUtil.validateToken(token)) {
-                    // 토큰에서 사용자 정보 가져오기
-                    claims = jwtUtil.getUserInfoFromToken(token);
-                } else {
-                    throw new IllegalArgumentException("Token Error");
-                }
+    public BoardResponseDto getBoard(Long id, HttpServletRequest request) {
+        Claims claims;
+        String token = jwtUtil.resolveToken(request);
 
-                // 토큰에서 가져온 사용자 정보를 사용하여 DB 조회
-                User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                        () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
-                );
+        if (token != null) {
+            // Token 검증
+            if (jwtUtil.validateToken(token)) {
+                // 토큰에서 사용자 정보 가져오기
+                claims = jwtUtil.getUserInfoFromToken(token);
+            } else {
+                throw new IllegalArgumentException("Token Error");
+            }
 
-        BoardResponseDto boardResponseDto = new BoardResponseDto(board);
-        return boardResponseDto;
+            // 토큰에서 가져온 사용자 정보를 사용하여 DB 조회
+            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
+                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+            );
 
+            Board board = boardRepository.findById(id).orElseThrow(
+                    () -> new NullPointerException("해당 글은 존재하지 않습니다.")
+            );
+           BoardResponseDto boardResponseDto = new BoardResponseDto(board);
+
+            return boardResponseDto;
+
+        }
+        return null;
     }
 
 
     @Transactional
-    public Long update(Long id, BoardRequestDto requestDto) {
+    public Long update(Long id, BoardRequestDto requestDto, HttpServletRequest request) {
+        Claims claims;
+        String token = jwtUtil.resolveToken(request);
             if (token != null) {
                 // Token 검증
                 if (jwtUtil.validateToken(token)) {
@@ -103,19 +120,22 @@ public class BoardService {
                 User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
                         () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
                 );
-//        Board board = boardRepository.findById(id).orElseThrow(
-//                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
-//        );
-//        if(Objects.equals(board.getPassword(), requestDto.getPassword())) {
+                Board board = boardRepository.findByIdAndUserId(id, user.getId()).orElseThrow(
+                        () -> new NullPointerException("해당 상품은 존재하지 않습니다.")
+                );
                     board.update(requestDto);
+
+                return board.getId();
                 }else {
                     return -1L;}
             }
-        return board.getId();
-    }
+
+
 
     @Transactional
-    public Long deleteBoard(Long id, String password) {
+    public Long deleteBoard(Long id, HttpServletRequest request) {
+        Claims claims;
+        String token = jwtUtil.resolveToken(request);
             if (token != null) {
                 // Token 검증
                 if (jwtUtil.validateToken(token)) {
@@ -129,18 +149,12 @@ public class BoardService {
                 User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
                         () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
                 );
-//        Board board = boardRepository.findById(id).orElseThrow(
-//                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
-//        );
-//
-//        if(!board.getPassword().equals(password)){
-//            throw  new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
         return id;
     }
 
 }
-}
+
 
 
 

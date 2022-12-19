@@ -30,14 +30,19 @@ public class Board extends Timestamped{
     private User user;
 
 
-    public Board(BoardRequestDto requestDto) {
-        this.username = requestDto.getUsername();
+    public Board(BoardRequestDto requestDto,String username) {
+        this.username = username;
         this.contents = requestDto.getContents();
         this.title = requestDto.getTitle();
 
     }
+    public void addUser(User user){
+        this.user = user;
+        user.getBoards().add(this);
+
+    }
     public void update(BoardRequestDto requestDto){
-        this.username = requestDto.getUsername();
+//        this.username = requestDto.getUsername();
         this.contents = requestDto.getContents();
         this.title = requestDto.getTitle();
     }

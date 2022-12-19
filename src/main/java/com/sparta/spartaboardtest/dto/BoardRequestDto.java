@@ -9,6 +9,6 @@ public class BoardRequestDto {
     private String username;
     private String contents;
     private String title;
-    private String password;
+//    private String password;
 
 }

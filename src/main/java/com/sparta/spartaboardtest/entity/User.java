@@ -32,7 +32,7 @@ public class User {
     private UserRoleEnum role;
 
     @OneToMany
-    List<Board> boards = new ArrayList<>();
+    private final List<Board> boards = new ArrayList<>();
 
     public User(String username, String password, String email, UserRoleEnum role) {
         this.username = username;

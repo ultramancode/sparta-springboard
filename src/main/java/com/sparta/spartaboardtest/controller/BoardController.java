@@ -11,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -31,9 +33,9 @@ public class BoardController {
     }
     // 게시글 작성
     @PostMapping("/api/boards")
-    public Board createBoard(@RequestBody BoardRequestDto requestDto){
-
-    return boardService.createBoard(requestDto);
+    public BoardResponseDto createBoard(@RequestBody BoardRequestDto requestDto, HttpServletRequest request){
+        System.out.println(requestDto.getUsername());
+    return boardService.createBoard(requestDto, request);
     }
     // 전체 게시글 조회
     @GetMapping("/api/boards")
@@ -41,21 +43,21 @@ public class BoardController {
         return boardService.getBoards();
     }
     @GetMapping("/api/boards/{id}")
-    public BoardResponseDto getBoard(@PathVariable Long id){
-        return boardService.getBoard(id);
+    public BoardResponseDto getBoard(@PathVariable Long id, HttpServletRequest request){
+        return boardService.getBoard(id, request);
 
     }
 
     //게시글 수정
     @PutMapping("/api/boards/{id}")
-    public Long updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto){
+    public Long updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto requestDto, HttpServletRequest request){
 
-        return boardService.update(id, requestDto);
+        return boardService.update(id, requestDto, request);
     }
     // 게시글 삭제
     @DeleteMapping("/api/boards/{id}")
-    public Long deleteBoard(@PathVariable Long id, @RequestBody String password){
-        return boardService.deleteBoard(id, password);
+    public Long deleteBoard(@PathVariable Long id, HttpServletRequest request){
+        return boardService.deleteBoard(id, request);
     }
 
 }
