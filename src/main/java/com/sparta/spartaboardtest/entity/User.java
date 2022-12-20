@@ -34,7 +34,7 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user"/*,cascade = CascadeType.REMOVE*/)  //user 지우면 board도 지우는 것 user만 지우면 남아있는 글들 오류나니 cacade로 지우기..아 이건 댓글에서 활용!! 여기 아니다!!
     private final List<Board> boards = new ArrayList<>();
 
     public User(String username, String password, String email, UserRoleEnum role) {

@@ -37,7 +37,7 @@ public class BoardService {
         String token = jwtUtil.resolveToken(request);
         Claims claims;
 
-        // 토큰이 있는 경우에만 관심상품 조회 가능
+        // 토큰이 있는 경우에만 작성 가능
         if (token != null) {
 
             // Token 검증
@@ -55,10 +55,6 @@ public class BoardService {
             Board board = new Board(requestDto,user.getUsername());
             board.addUser(user);
             boardRepository.save(board);
-//            System.out.println(board.getUsername());
-//            System.out.println(board.getTitle());
-//            System.out.println(board.getId());
-//            System.out.println(board.getContents());
             return new BoardResponseDto(board);
 
         }
@@ -120,7 +116,7 @@ public class BoardService {
                 User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
                         () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
                 );
-                Board board = boardRepository.findByIdAndUserId(id, user.getId()).orElseThrow(
+                Board board = boardRepository.findById(id).orElseThrow(
                         () -> new NullPointerException("해당 상품은 존재하지 않습니다.")
                 );
                     board.update(requestDto);
@@ -149,10 +145,19 @@ public class BoardService {
                 User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
                         () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
                 );
+                Board board = boardRepository.findById(id).orElseThrow(
+                        () -> new NullPointerException("해당 상품은 존재하지 않습니다.")
+                );
+
+                if(user.getUsername().equals(board.getUsername())) {
+                    boardRepository.deleteById(id);
+                }else {
+                    throw new IllegalArgumentException("삭제 권한이 없습니다.");
+                }
         }
-        boardRepository.deleteById(id);
-//        boardRepository.delete(board);
+
         return id;
+
     }
 
 }

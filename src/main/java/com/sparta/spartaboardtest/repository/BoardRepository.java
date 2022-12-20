@@ -10,10 +10,9 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
 
     List<Board> findAllByOrderByModifiedAtDesc();
-    Optional<Board> findById(Long id);
-    Optional<Board> findByUsername(String username);
 
-    Optional<Board> findByIdAndUserId(Long id, Long userId);
+
+
 
 
 }
