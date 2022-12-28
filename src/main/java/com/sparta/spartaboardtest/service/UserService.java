@@ -1,6 +1,7 @@
 package com.sparta.spartaboardtest.service;
 import com.sparta.spartaboardtest.dto.LoginRequestDto;
 import com.sparta.spartaboardtest.dto.SignupRequestDto;
+import com.sparta.spartaboardtest.dto.UserResponseDto;
 import com.sparta.spartaboardtest.entity.User;
 import com.sparta.spartaboardtest.entity.UserRoleEnum;
 import com.sparta.spartaboardtest.jwt.JwtUtil;
@@ -18,7 +19,7 @@ public class UserService {
     private final JwtUtil jwtUtil;
     private static final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
     @Transactional
-    public void signup(SignupRequestDto signupRequestDto) {
+    public UserResponseDto signup(SignupRequestDto signupRequestDto) {
         String username = signupRequestDto.getUsername();
         String password = signupRequestDto.getPassword();
         String email = signupRequestDto.getEmail();
@@ -37,6 +38,9 @@ public class UserService {
         }
         User user = new User(username, password, email, role);
         userRepository.save(user);
+
+        UserResponseDto signupResponseDto = new UserResponseDto(user);
+        return signupResponseDto;
     }
     @Transactional(readOnly = true)
     public void login(LoginRequestDto loginRequestDto, HttpServletResponse response) {

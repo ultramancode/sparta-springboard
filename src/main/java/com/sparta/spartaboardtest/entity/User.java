@@ -2,7 +2,6 @@ package com.sparta.spartaboardtest.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import javax.validation.constraints.Pattern;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,11 +19,11 @@ public class User {
     // nullable: null 허용 여부
     // unique: 중복 허용 여부 (false 일때 중복 허용)
     @Column(nullable = false, unique = true)
-//    @Pattern(regexp = "[a-z0-9]{4,10}", message = "사용자 이름은 알파벳 소문자, 숫자로 구성한 4~10자 사이로 입력해주세요.")
+
     public String username;
 
     @Column(nullable = false)
-//    @Pattern(regexp = "[a-z0-9]{4,10}", message = "사용자 이름은 알파벳 소문자, 숫자로 구성한 4~10자 사이로 입력해주세요.")
+
     private String password;
 
     @Column(nullable = false, unique = true)
@@ -34,7 +33,7 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-    @OneToMany(mappedBy = "user"/*,cascade = CascadeType.REMOVE*/)  //user 지우면 board도 지우는 것 user만 지우면 남아있는 글들 오류나니 cacade로 지우기..아 이건 댓글에서 활용!! 여기 아니다!!
+    @OneToMany(mappedBy = "user"/*,cascade = CascadeType.REMOVE*/)  //user 지우면 board도 지우는 것 user만 지우면 남아있는 글들 오류나니 cacade로 지우기..이건 댓글에서 활용!! 여기 아님!!
     private final List<Board> boards = new ArrayList<>();
 
     public User(String username, String password, String email, UserRoleEnum role) {

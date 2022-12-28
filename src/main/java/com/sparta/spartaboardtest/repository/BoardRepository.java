@@ -8,11 +8,6 @@ import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-
-    List<Board> findAllByOrderByModifiedAtDesc();
-
-
-
-
+    List<Board> findAllByOrderByModifiedAtDesc();  //findAll ByOrder 순서대로 ByModifiedAtDesc 내림차순 수정시간.. ()
 
 }
