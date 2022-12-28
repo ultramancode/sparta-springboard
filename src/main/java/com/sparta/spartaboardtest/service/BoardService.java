@@ -5,6 +5,7 @@ import com.sparta.spartaboardtest.dto.BoardRequestDto;
 import com.sparta.spartaboardtest.dto.BoardResponseDto;
 import com.sparta.spartaboardtest.entity.Board;
 import com.sparta.spartaboardtest.entity.User;
+import com.sparta.spartaboardtest.entity.UserRoleEnum;
 import com.sparta.spartaboardtest.jwt.JwtUtil;
 import com.sparta.spartaboardtest.repository.BoardRepository;
 import com.sparta.spartaboardtest.repository.UserRepository;
@@ -61,14 +62,55 @@ public class BoardService {
         }
     }
     @Transactional(readOnly = true)
-    public List<BoardResponseDto> getBoardList() {
-        List<Board> boardList = boardRepository.findAllByOrderByModifiedAtDesc();
-        List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();  ///담을 공간 만들어 주고
-        for(Board board : boardList){ //for each문으로 돌면서 하나하나 훑고
-            boardResponseDtoList.add(new BoardResponseDto(board)); // board를 BoardResponserDto 타입으로 add해서 DtoList에 저장!!
+    public List<BoardResponseDto> getBoardList(HttpServletRequest request) {
+        String token = jwtUtil.resolveToken(request);
+        Claims claims;
+
+        // 토큰이 있는 경우에만 관심상품 조회 가능
+        if (token != null) {
+            // Token 검증
+            if (jwtUtil.validateToken(token)) {
+                // 토큰에서 사용자 정보 가져오기
+                claims = jwtUtil.getUserInfoFromToken(token);
+            } else {
+                throw new IllegalArgumentException("Token Error");
+            }
+            // 토큰에서 가져온 사용자 정보를 사용하여 DB 조회
+            User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
+                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+            );
+
+            // 사용자 권한 가져와서 ADMIN 이면 전체 조회, USER 면 본인이 추가한 부분 조회
+            UserRoleEnum userRoleEnum = user.getRole();
+            System.out.println("role = " + userRoleEnum);
+
+            List<Board> boardList = boardRepository.findAllByOrderByModifiedAtDesc();
+            List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();
+
+            if (userRoleEnum == UserRoleEnum.USER) {
+                // 사용자 권한이 USER일 경우
+                boardList = boardRepository.findAllByUserId(user.getId());
+            } else {
+                boardList = boardRepository.findAll();
+            }
+
+            for (Board product : boardList) {
+                boardResponseDtoList.add(new BoardResponseDto(product));
+            }
+
+            return boardResponseDtoList;
+
+        } else {
+            throw new IllegalArgumentException("올바른 Token값을 넣어주세요");
         }
-        return boardResponseDtoList;
     }
+//        List<Board> boardList = boardRepository.findAllByOrderByModifiedAtDesc();
+//        List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();  ///담을 공간 만들어 주고
+//        for(Board board : boardList){ //for each문으로 돌면서 하나하나 훑고
+//            boardResponseDtoList.add(new BoardResponseDto(board)); // board를 BoardResponserDto 타입으로 add해서 DtoList에 저장!!
+//        }
+//        return boardResponseDtoList;
+//    }
 
 
 

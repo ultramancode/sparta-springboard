@@ -25,9 +25,9 @@ public class BoardController {
     }
     // 전체 게시글 조회
     @GetMapping("/api/boards")
-    public List<BoardResponseDto> getBoardList() {
+    public List<BoardResponseDto> getBoardList(HttpServletRequest request) {
 
-        return boardService.getBoardList();
+        return boardService.getBoardList(request);
     }
     //개별 게시글 조회
     @GetMapping("/api/boards/{id}")   //API URI에 변수가 들어가는 경우 @PathVariable 붙이기, id 값으로 각각의 게시글을 구별
